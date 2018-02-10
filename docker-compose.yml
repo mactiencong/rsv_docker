@@ -1,0 +1,38 @@
+version: "3"
+services:
+  reserve:
+    container_name: reserve
+    image: okg-reserve
+    tty: true
+    volumes:
+      - /Users/matico/Workspace/OkageReserve:/usr/share/nginx/html/OkageReserve
+      - /Users/matico/Workspace/OkageReserve/docker/php/php-fpm.conf:/etc/php/5.6/fpm/php-fpm.conf
+      - /Users/matico/Workspace/OkageReserve/docker/php/php.ini:/etc/php/5.6/fpm/php.ini
+      - /Users/matico/Workspace/OkageReserve/docker/nginx/nginx.conf:/usr/local/nginx/nginx.conf
+      - /Users/matico/Workspace/OkageReserve/docker/nginx/conf.d:/usr/local/nginx/conf.d
+    ports:
+      - "8080:80"
+    networks:
+      - okg-reserve
+  db:
+    container_name: db
+    image: mysql:5.7
+    volumes:
+      - /Users/matico/Workspace/Projects/PHP/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - "3306:3306"
+    networks:
+      - okg-reserve
+  phpmyadmin:
+     container_name: phpmyadmin
+     image: phpmyadmin/phpmyadmin
+     environment:
+       - MYSQL_ROOT_PASSWORD=123456
+     ports:
+       - "8082:80"
+     networks:
+       - okg-reserve
+networks:
+  okg-reserve:
