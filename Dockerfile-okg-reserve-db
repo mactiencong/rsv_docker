@@ -1,0 +1,4 @@
+FROM mysql:5.7
+COPY bondy.sql bondy.sql
+COPY init_db.sh init_db.sh
+ENTRYPOINT /bin/bash ./init_db.sh && tail -f /dev/null
